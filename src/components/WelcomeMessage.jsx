@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { TodoItemContext } from '../store/todoItemStore';
 
 const WelcomeMessage = () => {
+    const { todoItems } = useContext(TodoItemContext);
     return (
-        <div className="text-2xl font-semibold text-sky-700	">Enjoy Your Day</div>
+        todoItems.length === 0 && <div className="text-2xl font-semibold text-sky-700">Enjoy Your Day</div>
     )
 }
 

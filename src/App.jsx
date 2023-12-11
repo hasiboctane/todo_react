@@ -4,6 +4,7 @@ import './App.css'
 import AddTodo from './components/AddTodo'
 import DisplayTodo from './components/DisplayTodo'
 import WelcomeMessage from './components/WelcomeMessage'
+import { TodoItemContext } from './store/todoItemStore'
 
 function App() {
   const initialTodoItems = [
@@ -24,23 +25,29 @@ function App() {
     },
   ]
   const [todoItems, setTodoItems] = useState([]);
-  const handleNewItem = (name, date) => {
-    const newTodoItems = [...todoItems, { id: todoItems.length + 1, name: name, date: date }]
-    setTodoItems(newTodoItems)
+  const addNewItem = (name, date) => {
+    // const newTodoItems = [...todoItems, { id: todoItems.length + 1, name: name, date: date }]
+    // setTodoItems(newTodoItems)
+    setTodoItems((currentValue) => {
+      return [...currentValue, { id: todoItems.length + 1, name: name, date: date }]
+    })
   }
 
-  const handleDeleteItem = (itemId) => {
+  const deleteItem = (itemId) => {
     const newTodoItems = todoItems.filter(item => item.id !== itemId)
     setTodoItems(newTodoItems)
   }
   return (
     <>
-      <div className=' bg-slate-300 h-[100vh] flex flex-col  items-center'>
-        <h2 className='text-3xl font-semibold underline text-purple-500 mt-3'>To-Do App</h2>
-        <AddTodo onNewItem={handleNewItem} />
-        {todoItems.length === 0 && <WelcomeMessage />}
-        <DisplayTodo todoItems={todoItems} onDeleteItem={handleDeleteItem} />
-      </div>
+      <TodoItemContext.Provider value={{ todoItems, addNewItem, deleteItem }}>
+        <div className=' bg-slate-300 h-[100vh] flex flex-col  items-center'>
+          <h2 className='text-3xl font-semibold underline text-purple-500 mt-3'>To-Do App</h2>
+          <AddTodo />
+          <WelcomeMessage />
+          <DisplayTodo />
+        </div>
+      </TodoItemContext.Provider>
+
     </>
   )
 }

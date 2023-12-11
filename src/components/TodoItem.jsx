@@ -1,6 +1,7 @@
 import React from 'react'
 
 const TodoItem = ({ id, name, date, onDeleteItem }) => {
+
     return (
         <table>
             <tbody>
